@@ -14,19 +14,19 @@ namespace PrimerParcial.Data
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Clasificacion_Suplidores.Any())
+            if (context.Articulos.Any())
             {
                 return;   // DB has been seeded
             }
 
-            var clasificaciones = new Clasificacion_Suplidores[]
+            var clasificaciones = new Articulos[]
             {
-                new Clasificacion_Suplidores{Clasificacion="Clasificacion A"},
-                new Clasificacion_Suplidores{Clasificacion="Clasificacion B"}
+                //new Articulos{"},
+                //new Articulos{}
             };
-            foreach (Clasificacion_Suplidores a in clasificaciones)
+            foreach (Articulos a in clasificaciones)
             {
-                context.Clasificacion_Suplidores.Add(a);
+                context.Articulos.Add(a);
             }
             context.SaveChanges();
         }

@@ -14,8 +14,6 @@ namespace PrimerParcial.Data
 
         }
         public DbSet<Articulos> Articulos { get; set; }
-        public DbSet<Clasificacion_Articulos> Clasificacion_Articulos { get; set; }
-        public DbSet<Clasificacion_Suplidores> Clasificacion_Suplidores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

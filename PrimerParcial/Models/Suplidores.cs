@@ -10,7 +10,6 @@ namespace PrimerParcial.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Clasificacion_Suplidores Clasificacion { get; set; }
         public List<Articulos> Articulos { get; set; }
     }
 }
