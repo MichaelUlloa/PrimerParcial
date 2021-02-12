@@ -10,6 +10,7 @@ namespace PrimerParcial.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
+        //Relation with Model Ciudades
         public List<Ciudades> Ciudades { get; set; }
     }   
 }

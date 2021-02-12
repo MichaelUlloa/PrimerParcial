@@ -24,9 +24,29 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClasificacionArticulosId" class="control-label"></label>
+                <select asp-for="ClasificacionArticulosId" class="form-control" asp-items="ViewBag.ClasificacionArticulosId"></select>
+                <span asp-validation-for="ClasificacionArticulosId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MarcaId" class="control-label"></label>
+                <select asp-for="MarcaId" class="form-control" asp-items="ViewBag.MarcaId"></select>
+                <span asp-validation-for="MarcaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuplidorId" class="control-label"></label>
+                <select asp-for="SuplidorId" class="form-control" asp-items="ViewBag.SuplidorId"></select>
+                <span asp-validation-for="SuplidorId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

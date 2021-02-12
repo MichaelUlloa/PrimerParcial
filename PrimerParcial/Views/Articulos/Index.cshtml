@@ -19,7 +19,19 @@
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClasificacionArticulos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Suplidor)
             </th>
             <th></th>
         </tr>
@@ -34,7 +46,19 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClasificacionArticulos.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Suplidor.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

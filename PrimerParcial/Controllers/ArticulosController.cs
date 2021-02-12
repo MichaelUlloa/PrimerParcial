@@ -22,7 +22,8 @@ namespace PrimerParcial.Controllers
         // GET: Articulos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Articulos.ToListAsync());
+            var parcialDbContext = _context.Articulos.Include(a => a.ClasificacionArticulos).Include(a => a.Marca).Include(a => a.Suplidor);
+            return View(await parcialDbContext.ToListAsync());
         }
 
         // GET: Articulos/Details/5
@@ -34,18 +35,24 @@ namespace PrimerParcial.Controllers
             }
 
             var articulos = await _context.Articulos
+                .Include(a => a.ClasificacionArticulos)
+                .Include(a => a.Marca)
+                .Include(a => a.Suplidor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (articulos == null)
             {
                 return NotFound();
             }
-
+            
             return View(articulos);
         }
 
         // GET: Articulos/Create
         public IActionResult Create()
         {
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id");
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id");
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id");
             return View();
         }
 
@@ -54,7 +61,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description")] Articulos articulos)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId")] Articulos articulos)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +69,9 @@ namespace PrimerParcial.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id", articulos.ClasificacionArticulosId);
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id", articulos.MarcaId);
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id", articulos.SuplidorId);
             return View(articulos);
         }
 
@@ -78,6 +88,9 @@ namespace PrimerParcial.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id", articulos.ClasificacionArticulosId);
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id", articulos.MarcaId);
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id", articulos.SuplidorId);
             return View(articulos);
         }
 
@@ -86,7 +99,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description")] Articulos articulos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId")] Articulos articulos)
         {
             if (id != articulos.Id)
             {
@@ -113,6 +126,9 @@ namespace PrimerParcial.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id", articulos.ClasificacionArticulosId);
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id", articulos.MarcaId);
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id", articulos.SuplidorId);
             return View(articulos);
         }
 
@@ -125,6 +141,9 @@ namespace PrimerParcial.Controllers
             }
 
             var articulos = await _context.Articulos
+                .Include(a => a.ClasificacionArticulos)
+                .Include(a => a.Marca)
+                .Include(a => a.Suplidor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (articulos == null)
             {
