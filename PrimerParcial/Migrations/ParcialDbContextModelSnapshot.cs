@@ -36,6 +36,7 @@ namespace PrimerParcial.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
@@ -47,6 +48,9 @@ namespace PrimerParcial.Migrations
                     b.Property<int>("SuplidorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UnidadesDeMedidaId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClasificacionArticulosId");
@@ -54,6 +58,8 @@ namespace PrimerParcial.Migrations
                     b.HasIndex("MarcaId");
 
                     b.HasIndex("SuplidorId");
+
+                    b.HasIndex("UnidadesDeMedidaId");
 
                     b.ToTable("Articulos");
                 });
@@ -71,9 +77,14 @@ namespace PrimerParcial.Migrations
                     b.Property<int>("PaisId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UbicacionesId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PaisId");
+
+                    b.HasIndex("UbicacionesId");
 
                     b.ToTable("Ciudades");
                 });
@@ -245,6 +256,9 @@ namespace PrimerParcial.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Monedas");
@@ -300,6 +314,62 @@ namespace PrimerParcial.Migrations
                     b.ToTable("Suplidores");
                 });
 
+            modelBuilder.Entity("PrimerParcial.Models.Tasas_de_Cambio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Equivalencia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MonedasId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ParDeMoneda")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MonedasId");
+
+                    b.ToTable("Tasas_de_Cambio");
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.Ubicaciones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ubicacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ubicaciones");
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.Unidades_de_Medida", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CantidadMedida")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Medida")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Unidades_de_Medida");
+                });
+
             modelBuilder.Entity("PrimerParcial.Models.Articulos", b =>
                 {
                     b.HasOne("PrimerParcial.Models.Clasificacion_Articulos", "ClasificacionArticulos")
@@ -319,6 +389,12 @@ namespace PrimerParcial.Migrations
                         .HasForeignKey("SuplidorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PrimerParcial.Models.Unidades_de_Medida", "UnidadesDeMedida")
+                        .WithMany("Articulos")
+                        .HasForeignKey("UnidadesDeMedidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PrimerParcial.Models.Ciudades", b =>
@@ -326,6 +402,12 @@ namespace PrimerParcial.Migrations
                     b.HasOne("PrimerParcial.Models.Paises", "Pais")
                         .WithMany("Ciudades")
                         .HasForeignKey("PaisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PrimerParcial.Models.Ubicaciones", "Ubicaciones")
+                        .WithMany("Ciudades")
+                        .HasForeignKey("UbicacionesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -359,6 +441,15 @@ namespace PrimerParcial.Migrations
                     b.HasOne("PrimerParcial.Models.Clasificacion_Suplidores", "Clasificacion")
                         .WithMany("Suplidores")
                         .HasForeignKey("ClasificacionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.Tasas_de_Cambio", b =>
+                {
+                    b.HasOne("PrimerParcial.Models.Monedas", "Monedas")
+                        .WithMany("TasasDeCambio")
+                        .HasForeignKey("MonedasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

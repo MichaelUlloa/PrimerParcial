@@ -7,5 +7,10 @@ namespace PrimerParcial.Models
 {
     public class Ubicaciones
     {
+        public int Id { get; set; }
+        public string Ubicacion { get; set; }
+
+        //Relation with Ciudades model
+        public List<Ciudades> Ciudades { get; set; }
     }
 }

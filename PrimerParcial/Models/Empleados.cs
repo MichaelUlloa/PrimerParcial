@@ -9,10 +9,16 @@ namespace PrimerParcial.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+
         [DisplayName("Date Of Birth")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DataType(DataType.Date)]
         [Required]
         public DateTime DateOfBirth { get; set; }
+
         [DisplayName("Hired Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DataType(DataType.Date)]
         public DateTime HiredDate { get; set; }
 
         //Relations with Puestos_de_Trabajos Model

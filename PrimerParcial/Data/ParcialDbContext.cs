@@ -35,5 +35,10 @@ namespace PrimerParcial.Data
 
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<PrimerParcial.Models.Tasas_de_Cambio> Tasas_de_Cambio { get; set; }
+        public DbSet<PrimerParcial.Models.Tipos_de_Documentos> Tipos_de_Documentos { get; set; }
+        public DbSet<PrimerParcial.Models.Ubicaciones> Ubicaciones { get; set; }
+        public DbSet<PrimerParcial.Models.Unidades_de_Medida> Unidades_de_Medida { get; set; }
+        public DbSet<PrimerParcial.Models.Vendedores> Vendedores { get; set; }
     }
 }

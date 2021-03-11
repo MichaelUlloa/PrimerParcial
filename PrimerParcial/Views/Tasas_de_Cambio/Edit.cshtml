@@ -1,0 +1,44 @@
+﻿@model PrimerParcial.Models.Tasas_de_Cambio
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Tasas_de_Cambio</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ParDeMoneda" class="control-label"></label>
+                <input asp-for="ParDeMoneda" class="form-control" />
+                <span asp-validation-for="ParDeMoneda" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Equivalencia" class="control-label"></label>
+                <input asp-for="Equivalencia" class="form-control" />
+                <span asp-validation-for="Equivalencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MonedasId" class="control-label"></label>
+                <select asp-for="MonedasId" class="form-control" asp-items="ViewBag.MonedasId"></select>
+                <span asp-validation-for="MonedasId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

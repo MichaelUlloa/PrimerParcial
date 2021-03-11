@@ -48,7 +48,7 @@ namespace PrimerParcial.Controllers
         // GET: Suplidores/Create
         public IActionResult Create()
         {
-            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Id");
+            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Clasificacion");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace PrimerParcial.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Id", suplidores.ClasificacionId);
+            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Clasificacion", suplidores.ClasificacionId);
             return View(suplidores);
         }
 
@@ -82,7 +82,7 @@ namespace PrimerParcial.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Id", suplidores.ClasificacionId);
+            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Clasificacion", suplidores.ClasificacionId);
             return View(suplidores);
         }
 
@@ -118,7 +118,7 @@ namespace PrimerParcial.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Id", suplidores.ClasificacionId);
+            ViewData["ClasificacionId"] = new SelectList(_context.ClasificacionSuplidores, "Id", "Clasificacion", suplidores.ClasificacionId);
             return View(suplidores);
         }
 

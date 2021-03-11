@@ -10,8 +10,12 @@ namespace PrimerParcial.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        //Relation with Model Paises
+        //Relation with Paises model
         public int PaisId { get; set; }
         public Paises Pais { get; set; }
+
+        //Relation with Ubicaciones model
+        public int UbicacionesId { get; set; }
+        public Ubicaciones Ubicaciones { get; set; }
     }
 }

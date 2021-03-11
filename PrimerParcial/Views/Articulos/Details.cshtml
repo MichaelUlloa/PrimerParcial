@@ -38,19 +38,25 @@
             @Html.DisplayNameFor(model => model.ClasificacionArticulos)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClasificacionArticulos.Id)
+            @Html.DisplayFor(model => model.ClasificacionArticulos.Articulos)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Marca)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Marca.Id)
+            @Html.DisplayFor(model => model.Marca.Nombre)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Suplidor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Suplidor.Id)
+            @Html.DisplayFor(model => model.Suplidor.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UnidadesDeMedida)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UnidadesDeMedida.Medida)
         </dd>
     </dl>
 </div>

@@ -22,7 +22,7 @@ namespace PrimerParcial.Controllers
         // GET: Articulos
         public async Task<IActionResult> Index()
         {
-            var parcialDbContext = _context.Articulos.Include(a => a.ClasificacionArticulos).Include(a => a.Marca).Include(a => a.Suplidor);
+            var parcialDbContext = _context.Articulos.Include(a => a.ClasificacionArticulos).Include(a => a.Marca).Include(a => a.Suplidor).Include(a => a.UnidadesDeMedida);
             return View(await parcialDbContext.ToListAsync());
         }
 
@@ -38,21 +38,23 @@ namespace PrimerParcial.Controllers
                 .Include(a => a.ClasificacionArticulos)
                 .Include(a => a.Marca)
                 .Include(a => a.Suplidor)
+                .Include(a => a.UnidadesDeMedida)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (articulos == null)
             {
                 return NotFound();
             }
-            
+
             return View(articulos);
         }
 
         // GET: Articulos/Create
         public IActionResult Create()
         {
-            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id");
-            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id");
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id");
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion");
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre");
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name");
+            ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida");
             return View();
         }
 
@@ -61,7 +63,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId")] Articulos articulos)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId,UnidadesDeMedidaId")] Articulos articulos)
         {
             if (ModelState.IsValid)
             {
@@ -69,9 +71,10 @@ namespace PrimerParcial.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id", articulos.ClasificacionArticulosId);
-            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id", articulos.MarcaId);
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id", articulos.SuplidorId);
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion", articulos.ClasificacionArticulosId);
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre", articulos.MarcaId);
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name", articulos.SuplidorId);
+            ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida", articulos.UnidadesDeMedidaId);
             return View(articulos);
         }
 
@@ -88,9 +91,10 @@ namespace PrimerParcial.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id", articulos.ClasificacionArticulosId);
-            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id", articulos.MarcaId);
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id", articulos.SuplidorId);
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion", articulos.ClasificacionArticulosId);
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre", articulos.MarcaId);
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name", articulos.SuplidorId);
+            ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida", articulos.UnidadesDeMedidaId);
             return View(articulos);
         }
 
@@ -99,7 +103,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId")] Articulos articulos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId,UnidadesDeMedidaId")] Articulos articulos)
         {
             if (id != articulos.Id)
             {
@@ -126,9 +130,10 @@ namespace PrimerParcial.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Id", articulos.ClasificacionArticulosId);
-            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Id", articulos.MarcaId);
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Id", articulos.SuplidorId);
+            ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion", articulos.ClasificacionArticulosId);
+            ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre", articulos.MarcaId);
+            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name", articulos.SuplidorId);
+            ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida", articulos.UnidadesDeMedidaId);
             return View(articulos);
         }
 
@@ -144,6 +149,7 @@ namespace PrimerParcial.Controllers
                 .Include(a => a.ClasificacionArticulos)
                 .Include(a => a.Marca)
                 .Include(a => a.Suplidor)
+                .Include(a => a.UnidadesDeMedida)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (articulos == null)
             {

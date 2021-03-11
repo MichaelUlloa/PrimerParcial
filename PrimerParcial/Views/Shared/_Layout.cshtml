@@ -33,13 +33,60 @@
                                 <a class="dropdown-item text-dark" asp-controller="Clasificacion_Articulos" asp-action="Index">Clasificacion de Articulos</a>
                                 <a class="dropdown-item text-dark" asp-controller="Marcas" asp-action="Index">Marcas</a>
                                 <a class="dropdown-item text-dark" asp-controller="Suplidores" asp-action="Index">Suplidores</a>
-
+                                <a class="dropdown-item text-dark" asp-controller="Clasificacion_Suplidores" asp-action="Index">Clasificacion de Suplidores</a>
+                                <a class="dropdown-item text-dark" asp-controller="Unidades_de_Medida" asp-action="Index">Unidades de medida</a>
 
                             </div>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Suplidores" asp-action="Index">Suplidores</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Empresas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                <a class="dropdown-item text-dark" asp-controller="Empresas" asp-action="Index">Empresas</a>
+                                <a class="dropdown-item text-dark" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                                <a class="dropdown-item text-dark" asp-controller="Puestos_de_Trabajos" asp-action="Index">Puestos de Trabajos</a>
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ubicacion
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                <a class="dropdown-item text-dark" asp-controller="Paises" asp-action="Index">Paises</a>
+                                <a class="dropdown-item text-dark" asp-controller="Ciudades" asp-action="Index">Ciudades</a>
+                                <a class="dropdown-item text-dark" asp-controller="Ubicaciones" asp-action="Index">Ubicaciones</a>
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Formas de..
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                <a class="dropdown-item text-dark" asp-controller="Formas_de_Pagos" asp-action="Index">Formas de pagos</a>
+                                <a class="dropdown-item text-dark" asp-controller="Formas_de_Envio" asp-action="Index">Formas de envio</a>
+                                <a class="dropdown-item text-dark" asp-controller="Ubicaciones" asp-action="Index">Ubicaciones</a>
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Monedas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                <a class="dropdown-item text-dark" asp-controller="Monedas" asp-action="Index">Monedas</a>
+                                <a class="dropdown-item text-dark" asp-controller="Tasas_de_Cambio" asp-action="Index">Tasas de Cambio</a>
+                            </div>
                         </li>
 
                     </ul>

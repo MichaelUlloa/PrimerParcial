@@ -33,6 +33,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Suplidor)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnidadesDeMedida)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -52,13 +55,16 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClasificacionArticulos.Id)
+                @Html.DisplayFor(modelItem => item.ClasificacionArticulos.Clasificacion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Marca.Id)
+                @Html.DisplayFor(modelItem => item.Marca.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Suplidor.Id)
+                @Html.DisplayFor(modelItem => item.Suplidor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnidadesDeMedida.Medida)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
