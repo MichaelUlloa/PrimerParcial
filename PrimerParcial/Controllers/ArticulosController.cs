@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PrimerParcial.Data;
 using PrimerParcial.Models;
+using PrimerParcial.ViewModels;
 
 namespace PrimerParcial.Controllers
 {
@@ -22,7 +23,8 @@ namespace PrimerParcial.Controllers
         // GET: Articulos
         public async Task<IActionResult> Index()
         {
-            var parcialDbContext = _context.Articulos.Include(a => a.ClasificacionArticulos).Include(a => a.Marca).Include(a => a.Suplidor).Include(a => a.UnidadesDeMedida);
+            var parcialDbContext = _context.Articulos.Include(a => a.ClasificacionArticulos).Include(a => a.Marca).Include(a => a.UnidadesDeMedida);
+
             return View(await parcialDbContext.ToListAsync());
         }
 
@@ -37,7 +39,6 @@ namespace PrimerParcial.Controllers
             var articulos = await _context.Articulos
                 .Include(a => a.ClasificacionArticulos)
                 .Include(a => a.Marca)
-                .Include(a => a.Suplidor)
                 .Include(a => a.UnidadesDeMedida)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (articulos == null)
@@ -53,8 +54,8 @@ namespace PrimerParcial.Controllers
         {
             ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion");
             ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre");
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name");
             ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida");
+
             return View();
         }
 
@@ -63,7 +64,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId,UnidadesDeMedidaId")] Articulos articulos)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,UnidadesDeMedidaId")] Articulos articulos)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +74,6 @@ namespace PrimerParcial.Controllers
             }
             ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion", articulos.ClasificacionArticulosId);
             ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre", articulos.MarcaId);
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name", articulos.SuplidorId);
             ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida", articulos.UnidadesDeMedidaId);
             return View(articulos);
         }
@@ -93,7 +93,6 @@ namespace PrimerParcial.Controllers
             }
             ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion", articulos.ClasificacionArticulosId);
             ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre", articulos.MarcaId);
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name", articulos.SuplidorId);
             ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida", articulos.UnidadesDeMedidaId);
             return View(articulos);
         }
@@ -103,7 +102,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,SuplidorId,UnidadesDeMedidaId")] Articulos articulos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,ClasificacionArticulosId,MarcaId,UnidadesDeMedidaId")] Articulos articulos)
         {
             if (id != articulos.Id)
             {
@@ -132,7 +131,6 @@ namespace PrimerParcial.Controllers
             }
             ViewData["ClasificacionArticulosId"] = new SelectList(_context.ClasificacionArticulos, "Id", "Clasificacion", articulos.ClasificacionArticulosId);
             ViewData["MarcaId"] = new SelectList(_context.Marcas, "Id", "Nombre", articulos.MarcaId);
-            ViewData["SuplidorId"] = new SelectList(_context.Suplidores, "Id", "Name", articulos.SuplidorId);
             ViewData["UnidadesDeMedidaId"] = new SelectList(_context.Set<Unidades_de_Medida>(), "Id", "Medida", articulos.UnidadesDeMedidaId);
             return View(articulos);
         }
@@ -148,7 +146,6 @@ namespace PrimerParcial.Controllers
             var articulos = await _context.Articulos
                 .Include(a => a.ClasificacionArticulos)
                 .Include(a => a.Marca)
-                .Include(a => a.Suplidor)
                 .Include(a => a.UnidadesDeMedida)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (articulos == null)

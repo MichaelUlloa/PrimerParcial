@@ -29,11 +29,6 @@ namespace PrimerParcial.Models
         public int MarcaId { get; set; }
         public Marcas Marca { get; set; }
 
-        //Relationship with model Articulos
-        [Required]
-        public int SuplidorId { get; set; }
-        public Suplidores Suplidor { get; set; }
-
         //Relation with Unidades de Medida model
         public int UnidadesDeMedidaId { get; set; }
         public Unidades_de_Medida UnidadesDeMedida { get; set; }

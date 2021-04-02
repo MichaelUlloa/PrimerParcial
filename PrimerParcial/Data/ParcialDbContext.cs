@@ -24,7 +24,9 @@ namespace PrimerParcial.Data
         public DbSet<Paises> Paises { get; set; }
         public DbSet<Puestos_de_Trabajos> PuestosTrabajo { get; set; }
         public DbSet<Suplidores> Suplidores { get; set; }
-         
+        public DbSet<OrdenCompraMaster> OrdenCompraMasters { get; set; }
+        public DbSet<OrdenCompraDetalle> OrdenCompraDetalles { get; set; }
+
         public ParcialDbContext(DbContextOptions<ParcialDbContext> options) : base(options)
         {
 

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
 <h1>Delete</h1>
@@ -46,12 +47,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Marca.Nombre)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Suplidor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Suplidor.Name)
         </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UnidadesDeMedida)

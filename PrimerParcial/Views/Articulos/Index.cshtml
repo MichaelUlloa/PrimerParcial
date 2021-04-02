@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -31,9 +32,6 @@
                 @Html.DisplayNameFor(model => model.Marca)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Suplidor)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.UnidadesDeMedida)
             </th>
             <th></th>
@@ -59,9 +57,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Marca.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Suplidor.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UnidadesDeMedida.Medida)
