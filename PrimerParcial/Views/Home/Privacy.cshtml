@@ -4,3 +4,22 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<div id="placeHolderDiv"></div>
+
+<div class="form-group">
+    <button class="btn" type="button" onclick="replaceContentsOfDiv(this.id)" id="_YourPartialName">Add A Partial View Above This</button>
+</div>
+
+<script>
+    function replaceContentsOfDiv(partialViewToInsert) {
+        $.ajax({
+            url: '@Url.Action("AddPartialToView", "Home")',
+            data: { id: partialViewToInsert},
+            type: "POST",
+            success: function(data) {
+                $('#placeHolderDiv').html(data);
+            }
+        });
+    }
+</script>

@@ -27,14 +27,16 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">
+                <li>
+                    <a asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
                         <i class="nav-icon fas fa-home">
                         </i>
                         <p> Inicio </p>
                     </a>
+                </li>
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <li class="nav-item menu-open">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -44,7 +46,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-controller="Articulos" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","privacy")">
+                            <a asp-controller="Articulos" asp-action="Index" class="nav-link @Url.MakeActiveClass("articulos","index")">
                                 <i class="nav-icon fas fa-lock"></i>
                                 <p> Articulos </p>
                             </a>
@@ -61,7 +63,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-controller="OrdenCompra" asp-action="Index" class="nav-link">
+                            <a asp-controller="OrdenCompra" asp-action="Index" class="nav-link @Url.MakeActiveClass("ordencompra","index")">
                                 <i class="nav-icon fas fa-lock"></i>
                                 <p> Orden de Compra </p>
                             </a>

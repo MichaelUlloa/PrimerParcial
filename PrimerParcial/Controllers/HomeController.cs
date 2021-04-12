@@ -19,6 +19,12 @@ namespace PrimerParcial.Controllers
             return View();
         }
 
+        [HttpPost]
+        public PartialViewResult AddPartialToView(string id)
+        {
+            return PartialView("Test");
+        }
+
         public IActionResult Privacy()
         {
             return View();

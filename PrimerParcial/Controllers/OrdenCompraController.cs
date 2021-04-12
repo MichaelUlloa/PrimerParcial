@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using PrimerParcial.Data;
+using PrimerParcial.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrimerParcial.Controllers
@@ -12,6 +13,7 @@ namespace PrimerParcial.Controllers
     public class OrdenCompraController : Controller
     {
         private readonly ParcialDbContext _context;
+        private static List<OrdenCompraDetalle> detalles;
         public OrdenCompraController(ParcialDbContext context)
         {
             _context = context;
@@ -19,7 +21,9 @@ namespace PrimerParcial.Controllers
         // GET: OrdenCompraController
         public ActionResult Index()
         {
-            return View();
+            var parcialDbContext = _context.OrdenCompraMasters.Include(a => a.Suplidor).Include(a => a.FormaEnvio).Include(a => a.FormaPago).Include(a => a.OrdenCompraDetalles);
+
+            return View(parcialDbContext);
         }
 
         // GET: OrdenCompraController/Details/5
@@ -28,20 +32,37 @@ namespace PrimerParcial.Controllers
             return View();
         }
 
-        // GET: OrdenCompraController/Create
-        public ActionResult Create()
+        private void CreateViewData()
         {
             ViewData["Suplidores"] = new SelectList(_context.Suplidores, "Id", "Name");
             ViewData["FormasEnvio"] = new SelectList(_context.FormasEnvio, "Id", "Descripcion");
             ViewData["FormasPago"] = new SelectList(_context.FormasPago, "Id", "Descripcion");
-            return View();
+            ViewData["Articulos"] = new SelectList(_context.Articulos, "Id", "Name");
+        }
+        // GET: OrdenCompraController/Create
+        public ActionResult Create()
+        {
+            CreateViewData();
+            var ordenCompra = new OrdenCompraMaster()
+            {
+                OrdenCompraDetalles = detalles is null ? new List<OrdenCompraDetalle>() : detalles
+            };
+
+            return View(ordenCompra);
         }
 
-        // POST: OrdenCompraController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("SuplidorId,FechaPedido,FechaSalida,FechaLlegada,FormaEnvioId,FormaPagoId")] OrdenCompraMaster master)
         {
+            if (ModelState.IsValid)
+            {
+                master.OrdenCompraDetalles = detalles;
+                master.FechaPedido = DateTime.Now;
+                _context.OrdenCompraMasters.Add(master);
+                await _context.SaveChangesAsync();
+            }
+
             try
             {
                 return RedirectToAction(nameof(Index));
@@ -50,6 +71,29 @@ namespace PrimerParcial.Controllers
             {
                 return View();
             }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateDetalle([Bind("ArticuloId,Descripcion,Subtotal,Cantidad")] OrdenCompraDetalle detalle)
+        {
+            if (detalles is null)
+                detalles = new List<OrdenCompraDetalle>();
+
+            if (ModelState.IsValid)
+            {
+                var article = _context.Articulos.Find(detalle.ArticuloId);
+                decimal price = article.Price;
+
+                detalle.Precio = price;
+                detalle.Subtotal = price * detalle.Cantidad;
+                detalle.ITBIS = detalle.Subtotal * (decimal) 0.18;
+                detalle.Total = detalle.Subtotal + detalle.ITBIS;
+
+                detalles.Add(detalle);
+                return RedirectToAction(nameof(Create));
+            }
+
+            return View();    
         }
 
         // GET: OrdenCompraController/Edit/5
