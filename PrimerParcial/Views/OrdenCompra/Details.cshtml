@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    decimal total = 0;
 }
 
 <!-- Main content -->
@@ -74,7 +76,10 @@
                                                 <td>@detalle.ITBIS</td>
                                                 <td>@detalle.Total</td>
                                             </tr>
+
+                                            total += detalle.Total;
                                         }
+
                                     }
                                     else
                                     {
@@ -84,7 +89,11 @@
                                     }
                                 }
                             </tbody>
+                           
                         </table>
+                        <hr />
+                        <b>Total: @total</b>
+                        
                     </div>
                     <!-- /.card-body -->
                 </div>

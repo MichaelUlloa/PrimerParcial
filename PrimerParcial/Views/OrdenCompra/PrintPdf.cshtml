@@ -1,7 +1,12 @@
 ﻿@model PrimerParcial.Models.Invoice
 
+@{ 
+    decimal total = 0;
+}
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,33 +21,35 @@
 </head>
 <body>
     <div class="wrapper">
-        <h1>@Model.Master.Suplidor.Name</h1>
-        <!-- Main content -->
+        <div class="text-center">
+        <h1>Orden de compra para: @Model.Master.Suplidor.Name</h1>
+        </div>    
+    <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
             <div class="row">
                 <div class="col-12">
                     <h2 class="page-header">
-                        <i class="fas fa-globe"></i> AdminLTE, Inc.
-                        <small class="float-right">Date: 2/10/2014</small>
+                        <i class="fas fa-globe"></i> Ulloa y Jiménez Solutions, S.A.
+                        <small class="float-right">Fecha de pedido: @Model.Master.FechaPedido.ToString("dd/MM/yyyy")</small>
                     </h2>
                 </div>
                 <!-- /.col -->
             </div>
             <!-- info row -->
             <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                    From
+                <div class="col-sm-6 invoice-col">
+                    Nuestra información:
                     <address>
-                        <strong>Admin, Inc.</strong><br>
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
+                        <strong>Ulloa y Jiménez Solutions, S.A.</strong><br>
+                        Av. Enrique Jiménez Moya #316<br>
+                        Santo Domingo, DN<br>
                         Phone: (804) 123-5432<br>
-                        Email: info@almasaeedstudio.com
+                        Email: djimenez20191219@ucsd.edu.do
                     </address>
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
+                @*<div class="col-sm-4 invoice-col">
                     To
                     <address>
                         <strong>John Doe</strong><br>
@@ -51,14 +58,12 @@
                         Phone: (555) 539-1037<br>
                         Email: john.doe@example.com
                     </address>
-                </div>
+                </div>*@
                 <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                    <b>Invoice #007612</b><br>
-                    <br>
-                    <b>Order ID:</b> 4F3S8J<br>
-                    <b>Payment Due:</b> 2/22/2014<br>
-                    <b>Account:</b> 968-34567
+                <div class="col-sm-6 invoice-col">
+                    <b>Orden número:</b> @Model.Master.Id<br>
+                    <b>Fecha de llegada:</b> @Model.Master.FechaLlegada.ToString("dd/MM/yyyy")<br>
+                    <b>Forma de pago:</b> @Model.Master.FormaPago.Descripcion
                 </div>
                 <!-- /.col -->
             </div>
@@ -82,18 +87,21 @@
                         <tbody>
                             @foreach (var detalle in Model.Detalle)
                             {
-                            <tr>
-                                <th>@detalle.Cantidad</th>
-                                <th>@detalle.Articulo.Name</th>
-                                <th>@detalle.Descripcion</th>
-                                <th>@detalle.Precio</th>
-                                <th>@detalle.Subtotal</th>
-                                <th>@detalle.ITBIS</th>
-                                <th>@detalle.Total</th>
-                            </tr>
+                                <tr>
+                                    <th>@detalle.Cantidad</th>
+                                    <th>@detalle.Articulo.Name</th>
+                                    <th>@detalle.Descripcion</th>
+                                    <th>@detalle.Precio</th>
+                                    <th>@detalle.Subtotal</th>
+                                    <th>@detalle.ITBIS</th>
+                                    <th>@detalle.Total</th>
+                                </tr>
+                                total += detalle.Total;
                             }
                         </tbody>
                     </table>
+                    <hr />
+                    <b>Total: @total</b>
                 </div>
                 <!-- /.col -->
             </div>

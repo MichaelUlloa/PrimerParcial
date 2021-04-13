@@ -28,14 +28,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <!--<div class="col-sm-6">
-                            <h1 class="m-0">Starter Page</h1>
-                        </div>--><!-- /.col -->
+                        <h1 class="m-0">Starter Page</h1>
+                    </div>-->
+                        <!-- /.col -->
                         <!--<div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Starter Page</li>
-                            </ol>
-                        </div>--><!-- /.col -->
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Starter Page</li>
+                        </ol>
+                    </div>-->
+                        <!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
@@ -44,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="content">
                 <div class="container-fluid">
                     @RenderBody()
-                    @RenderSection("_Scripts", false)
+                    @*@RenderSection("_Scripts", false)*@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content -->
@@ -61,6 +63,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.control-sidebar -->
         <!-- Main Footer -->
         <partial name="AdminLTE/_Footer" />
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
     </div>
     <!-- ./wrapper -->
     <partial name="AdminLTE/_Scripts" />

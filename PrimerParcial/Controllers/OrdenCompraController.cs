@@ -6,6 +6,7 @@ using PrimerParcial.Data;
 using PrimerParcial.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrimerParcial.Controllers
@@ -14,6 +15,7 @@ namespace PrimerParcial.Controllers
     {
         private readonly ParcialDbContext _context;
         private static List<OrdenCompraDetalle> detalles;
+        private static OrdenCompraMaster ordenCompra;
         public OrdenCompraController(ParcialDbContext context)
         {
             _context = context;
@@ -58,10 +60,18 @@ namespace PrimerParcial.Controllers
         public ActionResult Create()
         {
             CreateViewData();
-            var ordenCompra = new OrdenCompraMaster()
+
+            if (detalles is null)
             {
-                OrdenCompraDetalles = detalles is null ? new List<OrdenCompraDetalle>() : detalles
-            };
+                ordenCompra = new OrdenCompraMaster()
+                {
+                    OrdenCompraDetalles = detalles is null ? new List<OrdenCompraDetalle>() : detalles
+                };
+            }
+            else
+            {
+                ordenCompra.OrdenCompraDetalles = detalles;               
+            }
 
             return View(ordenCompra);
         }
@@ -74,6 +84,7 @@ namespace PrimerParcial.Controllers
             {
                 master.OrdenCompraDetalles = detalles;
                 master.FechaPedido = DateTime.Now;
+                
                 _context.OrdenCompraMasters.Add(master);
                 await _context.SaveChangesAsync();
             }
@@ -96,9 +107,19 @@ namespace PrimerParcial.Controllers
 
             if (ModelState.IsValid)
             {
+                var seq = _context.OrdenCompraMasters.OrderByDescending(x => x.Id).FirstOrDefault();
+                int id = 0;
+
+                if(seq is null)                
+                    id = 1;                
+                else                
+                    id = seq.Id + 1;
+                
+
                 var article = _context.Articulos.Find(detalle.ArticuloId);
                 decimal price = article.Price;
 
+                detalle.OrdenCompraMasterId = id;
                 detalle.Precio = price;
                 detalle.Subtotal = price * detalle.Cantidad;
                 detalle.ITBIS = detalle.Subtotal * (decimal)0.18;
@@ -138,7 +159,7 @@ namespace PrimerParcial.Controllers
             if (id is null)
                 return NotFound();
 
-            var ordenCompra = await _context.OrdenCompraMasters.FindAsync(id);
+            var ordenCompra = await _context.OrdenCompraMasters.Include(x => x.OrdenCompraDetalles).FirstOrDefaultAsync(x => x.Id == id);
             if (ordenCompra is null)
                 return NotFound();
 
