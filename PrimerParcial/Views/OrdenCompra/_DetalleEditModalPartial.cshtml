@@ -1,13 +1,14 @@
 ﻿@model OrdenCompraDetalle
 
 <div class="col-3">
-    <button type="button" class="btn btn-primary mb-3 mt-3" data-toggle="modal" data-target="#detallesModal"> Crear orden </button>
+    <button id="modalButton" class="btn btn-primary mb-3 mt-3" data-toggle="modal" data-target="#editModal"> Editar orden </button>
 </div>
-<div class="modal fade" id="detallesModal" tabindex="-1" role="dialog" aria-labelledby="detallesModal" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="detallesModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"> whats happening orden </h4>
+                <h4 class="modal-title"> klkkk orden </h4>
+                <h4>@Model.Descripcion</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -20,13 +21,13 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label asp-for="@Model.ArticuloId"></label>
-                                    <select id="Articulo " asp-for="@Model.ArticuloId" class="form-control" asp-items="ViewBag.Articulos"></select>
+                                    <select id="inputArticulo" asp-for="@Model.ArticuloId" class="form-control" asp-items="ViewBag.Articulos"></select>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label asp-for="@Model.Descripcion"></label>
-                                    <input id="Descripcion" asp-for="@Model.Descripcion" value="@Model.Descripcion" class="form-control" />
+                                    <input id="inputDescripcion" asp-for="@Model.Descripcion" class="form-control" />
                                     <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>
 
                                 </div>
@@ -36,7 +37,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label asp-for="@Model.Cantidad"></label>
-                                    <input id="Cantidad" asp-for="@Model.Cantidad" class="form-control" />
+                                    <input id="inputCantidad" asp-for="@Model.Cantidad" class="form-control" />
                                     <span asp-validation-for="@Model.Cantidad" class="text-danger"></span>
                                 </div>
                             </div>

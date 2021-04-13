@@ -58,7 +58,7 @@
         </div>
     </form>
 
-    @{ await Html.RenderPartialAsync("_DetalleModalPartial", new OrdenCompraDetalle()); }
+    <partial name="_DetalleModalPartial" />
 
     <!-- Table of Orden Compra Detalles -->
     <div class="row">
@@ -88,11 +88,10 @@
                                     <th>Subtotal</th>
                                     <th>ITBIS</th>
                                     <th>Total</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody id="detailTBody">
-                                @{ 
+                                @{
                                     string FindArticleById(string id)
                                     {
                                         return (from article in ViewBag.Articulos as SelectList
@@ -112,10 +111,6 @@
                                             <td>@detalle.Subtotal</td>
                                             <td>@detalle.ITBIS</td>
                                             <td>@detalle.Total</td>
-                                            <td>
-                                                @{  await Html.RenderPartialAsync("_DetalleEditModalPartial", detalle); }
-                                                <a asp-action="DeleteDetalle" asp-route-id="@index">Delete</a>
-                                            </td>
                                         </tr>
                                         index++;
                                     }
@@ -129,7 +124,6 @@
     </div>
 </div>
 
-
-@section _Scripts {
-    @{await Html.RenderPartialAsync("AdminLTE/_Scripts");}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

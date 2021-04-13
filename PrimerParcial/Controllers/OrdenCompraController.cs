@@ -21,15 +21,30 @@ namespace PrimerParcial.Controllers
         // GET: OrdenCompraController
         public ActionResult Index()
         {
-            var parcialDbContext = _context.OrdenCompraMasters.Include(a => a.Suplidor).Include(a => a.FormaEnvio).Include(a => a.FormaPago).Include(a => a.OrdenCompraDetalles);
+            var parcialDbContext = _context.OrdenCompraMasters
+                .Include(a => a.Suplidor)
+                .Include(a => a.FormaEnvio)
+                .Include(a => a.FormaPago)
+                .Include(a => a.OrdenCompraDetalles);
 
             return View(parcialDbContext);
         }
 
         // GET: OrdenCompraController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id is null)
+                return NotFound();
+
+            var ordenCompra = await _context.OrdenCompraMasters
+                .Include(a => a.Suplidor)
+                .Include(a => a.FormaEnvio)
+                .Include(a => a.FormaPago)
+                .Include(a => a.OrdenCompraDetalles)
+                .ThenInclude(a => a.Articulo)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            return View(ordenCompra);
         }
 
         private void CreateViewData()
@@ -86,20 +101,49 @@ namespace PrimerParcial.Controllers
 
                 detalle.Precio = price;
                 detalle.Subtotal = price * detalle.Cantidad;
-                detalle.ITBIS = detalle.Subtotal * (decimal) 0.18;
+                detalle.ITBIS = detalle.Subtotal * (decimal)0.18;
                 detalle.Total = detalle.Subtotal + detalle.ITBIS;
 
                 detalles.Add(detalle);
                 return RedirectToAction(nameof(Create));
             }
 
-            return View();    
+            return View();
+        }
+        public IActionResult DeleteDetalle(int? id)
+        {
+            if (id is null)
+                return NotFound();
+
+            //0-based index
+            detalles.RemoveAt((int)id - 1);
+
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+        // POST: OrdenCompraController/EditDetalle/5
+        public IActionResult EditDetalle(int? id, [Bind("ArticuloId,Descripcion,Subtotal,Cantidad")] OrdenCompraDetalle detalle)
+        {
+            if (id is null)
+                return NotFound();
+
+            //0-based index
+            detalles[(int)id] = detalle;
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         // GET: OrdenCompraController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id is null)
+                return NotFound();
+
+            var ordenCompra = await _context.OrdenCompraMasters.FindAsync(id);
+            if (ordenCompra is null)
+                return NotFound();
+
+            CreateViewData();
+            return View(ordenCompra);
         }
 
         // POST: OrdenCompraController/Edit/5
@@ -117,25 +161,40 @@ namespace PrimerParcial.Controllers
             }
         }
 
-        // GET: OrdenCompraController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id is null)
+                return NotFound();
+
+            var ordenCompra = await _context.OrdenCompraMasters.FindAsync(id);
+            if (ordenCompra is null)
+                return NotFound();
+
+            _context.OrdenCompraMasters.Remove(ordenCompra);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: OrdenCompraController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> PrintPdf(int? id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (id is null)
+                return NotFound();
+
+            var ordenCompra = await _context.OrdenCompraMasters
+                .Include(a => a.Suplidor)
+                .Include(a => a.FormaEnvio)
+                .Include(a => a.FormaPago)
+                .Include(a => a.OrdenCompraDetalles)
+                .ThenInclude(a => a.Articulo)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (ordenCompra is null)
+                return NotFound();
+
+            var factura = new Invoice(ordenCompra);
+
+            return View(factura);
         }
     }
 }
