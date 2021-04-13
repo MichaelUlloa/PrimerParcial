@@ -26,6 +26,7 @@ namespace PrimerParcial.Models
 
         //Relationship with model Marcas
         [Required]
+        [Display(Name ="Marca")]
         public int MarcaId { get; set; }
         public Marcas Marca { get; set; }
 
