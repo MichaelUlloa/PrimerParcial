@@ -14,8 +14,5 @@ namespace PrimerParcial.Models
         public int PaisId { get; set; }
         public Paises Pais { get; set; }
 
-        //Relation with Ubicaciones model
-        public int UbicacionesId { get; set; }
-        public Ubicaciones Ubicaciones { get; set; }
     }
 }

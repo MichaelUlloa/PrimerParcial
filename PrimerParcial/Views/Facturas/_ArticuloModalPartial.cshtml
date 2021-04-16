@@ -1,13 +1,13 @@
-﻿@model OrdenCompraDetalle
+﻿@model InvoiceDetalle
 
 <div class="col-3">
-    <button type="button" class="btn btn-primary mb-3 mt-3" data-toggle="modal" data-target="#detallesModal"> Agregar orden </button>
+    <button type="button" class="btn btn-primary mb-3 mt-3" data-toggle="modal" data-target="#detallesModal"> Agregar articulo </button>
 </div>
 <div class="modal fade" id="detallesModal" tabindex="-1" role="dialog" aria-labelledby="detallesModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"> Crear orden </h4>
+                <h4 class="modal-title"> Agregar artículo </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -26,24 +26,15 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label asp-for="@Model.Cantidad"></label>
-                                    <input id="Cantidad" asp-for="@Model.Cantidad" class="form-control" />
+                                    <input id="Descripcion" asp-for="@Model.Cantidad" value="@Model.Cantidad" class="form-control" />
                                     <span asp-validation-for="@Model.Cantidad" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <label asp-for="@Model.Descripcion">Nota</label>
-                                    <input id="Descripcion" asp-for="@Model.Descripcion" value="@Model.Descripcion" class="form-control" />
-                                    <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#detallesModal"> Submit </button>
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#detallesModal"> Agregar </button>
                     </div>
                 </form>
             </div>

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace PrimerParcial.Models
 {
-    public class Invoice
+    public class OrdenCompraPrint
     {
-        public Invoice(OrdenCompraMaster master)
+        public OrdenCompraPrint(OrdenCompraMaster master)
         {
             Master = master;
             Detalle = master.OrdenCompraDetalles;

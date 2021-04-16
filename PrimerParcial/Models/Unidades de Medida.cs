@@ -9,7 +9,6 @@ namespace PrimerParcial.Models
     {
         public int Id { get; set; }
         public string Medida { get; set; }
-        public int CantidadMedida { get; set; }
 
         //Relation with Articulos model
         public List<Articulos> Articulos { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PrimerParcial.Migrations
 {
-    public partial class OrdenCompra : Migration
+    public partial class fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -152,26 +152,12 @@ namespace PrimerParcial.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ubicaciones",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ubicacion = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ubicaciones", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Unidades_de_Medida",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Medida = table.Column<string>(nullable: true),
-                    CantidadMedida = table.Column<int>(nullable: false)
+                    Medida = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -253,6 +239,26 @@ namespace PrimerParcial.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ciudades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    PaisId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ciudades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ciudades_Paises_PaisId",
+                        column: x => x.PaisId,
+                        principalTable: "Paises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Empleados",
                 columns: table => new
                 {
@@ -282,40 +288,13 @@ namespace PrimerParcial.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ciudades",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    PaisId = table.Column<int>(nullable: false),
-                    UbicacionesId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ciudades", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Ciudades_Paises_PaisId",
-                        column: x => x.PaisId,
-                        principalTable: "Paises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Ciudades_Ubicaciones_UbicacionesId",
-                        column: x => x.UbicacionesId,
-                        principalTable: "Ubicaciones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Articulos",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    Price = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     ClasificacionArticulosId = table.Column<int>(nullable: false),
@@ -341,6 +320,26 @@ namespace PrimerParcial.Migrations
                         name: "FK_Articulos_Unidades_de_Medida_UnidadesDeMedidaId",
                         column: x => x.UnidadesDeMedidaId,
                         principalTable: "Unidades_de_Medida",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvoiceMaster",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClienteId = table.Column<int>(nullable: false),
+                    FechaFactura = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceMaster", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InvoiceMaster_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -382,6 +381,36 @@ namespace PrimerParcial.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InvoiceDetalle",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MasterId = table.Column<int>(nullable: false),
+                    ArticuloId = table.Column<int>(nullable: false),
+                    Cantidad = table.Column<int>(nullable: false),
+                    Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ITBIS = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceDetalle", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDetalle_Articulos_ArticuloId",
+                        column: x => x.ArticuloId,
+                        principalTable: "Articulos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDetalle_InvoiceMaster_MasterId",
+                        column: x => x.MasterId,
+                        principalTable: "InvoiceMaster",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrdenCompraDetalles",
                 columns: table => new
                 {
@@ -390,6 +419,7 @@ namespace PrimerParcial.Migrations
                     OrdenCompraMasterId = table.Column<int>(nullable: false),
                     ArticuloId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(nullable: true),
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Cantidad = table.Column<int>(nullable: false),
                     ITBIS = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -433,11 +463,6 @@ namespace PrimerParcial.Migrations
                 column: "PaisId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ciudades_UbicacionesId",
-                table: "Ciudades",
-                column: "UbicacionesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Clientes_ClasificacionId",
                 table: "Clientes",
                 column: "ClasificacionId");
@@ -451,6 +476,21 @@ namespace PrimerParcial.Migrations
                 name: "IX_Empleados_JobTitleId",
                 table: "Empleados",
                 column: "JobTitleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceDetalle_ArticuloId",
+                table: "InvoiceDetalle",
+                column: "ArticuloId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceDetalle_MasterId",
+                table: "InvoiceDetalle",
+                column: "MasterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceMaster_ClienteId",
+                table: "InvoiceMaster",
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrdenCompraDetalles_ArticuloId",
@@ -494,10 +534,10 @@ namespace PrimerParcial.Migrations
                 name: "Ciudades");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Empleados");
 
             migrationBuilder.DropTable(
-                name: "Empleados");
+                name: "InvoiceDetalle");
 
             migrationBuilder.DropTable(
                 name: "OrdenCompraDetalles");
@@ -515,16 +555,13 @@ namespace PrimerParcial.Migrations
                 name: "Paises");
 
             migrationBuilder.DropTable(
-                name: "Ubicaciones");
-
-            migrationBuilder.DropTable(
-                name: "ClasificacionClientes");
-
-            migrationBuilder.DropTable(
                 name: "Empresas");
 
             migrationBuilder.DropTable(
                 name: "PuestosTrabajo");
+
+            migrationBuilder.DropTable(
+                name: "InvoiceMaster");
 
             migrationBuilder.DropTable(
                 name: "Articulos");
@@ -534,6 +571,9 @@ namespace PrimerParcial.Migrations
 
             migrationBuilder.DropTable(
                 name: "Monedas");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "ClasificacionArticulos");
@@ -552,6 +592,9 @@ namespace PrimerParcial.Migrations
 
             migrationBuilder.DropTable(
                 name: "Suplidores");
+
+            migrationBuilder.DropTable(
+                name: "ClasificacionClientes");
 
             migrationBuilder.DropTable(
                 name: "ClasificacionSuplidores");

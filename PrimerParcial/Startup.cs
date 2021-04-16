@@ -27,8 +27,7 @@ namespace PrimerParcial
         {
             services.AddDbContext<ParcialDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-
+            
             services.AddControllersWithViews();
         }
 
@@ -61,3 +60,5 @@ namespace PrimerParcial
         }
     }
 }
+
+

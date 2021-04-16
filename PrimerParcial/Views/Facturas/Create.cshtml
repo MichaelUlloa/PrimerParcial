@@ -1,0 +1,96 @@
+﻿@model PrimerParcial.Models.InvoiceMaster;
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<a asp-action="Index" class="btn btn-primary">
+    Atrás
+</a>
+
+<div class="card card-primary mt-3">
+
+    <div class="card-header">
+        <h3 class="card-title"> Master </h3>
+    </div>
+    <form asp-action="Create">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="ClienteId"> Cliente </label>
+                        <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.Clientes"></select>
+                        <span asp-validation-for="ClienteId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary float-right"> Generar factura </button>
+            </div>
+        </div>
+    </form>
+
+    @{ await Html.RenderPartialAsync("_ArticuloModalPartial", new InvoiceDetalle()); }
+
+    <!-- Table of Orden Compra Detalles -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0 mt-3" style="height: 300px;">
+                        <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Articulo</th>
+                                    <th>Cantidad</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailTBody">
+                                @{
+                                    string FindArticleById(string id)
+                                    {
+                                        return (from article in ViewBag.Articulos as SelectList
+                                                where article.Value == id
+                                                select article.Text).FirstOrDefault();
+                                    }
+
+                                    int index = 1;
+                                    foreach (var detalle in Model.InvoiceDetalles)
+                                    {
+                                        <tr>
+                                            <td>@index</td>
+                                            <td>@FindArticleById(detalle.ArticuloId.ToString())</td>
+                                            <td>@detalle.Cantidad</td>
+                                            <td>
+                                                <a asp-action="DeleteDetalle" asp-route-id="@index">Delete</a>
+                                            </td>
+                                        </tr>
+                                        index++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        @{await Html.RenderPartialAsync("AdminLTE/_Scripts");}
+    }

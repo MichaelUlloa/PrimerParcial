@@ -22,7 +22,7 @@ namespace PrimerParcial.Controllers
         // GET: Ciudades
         public async Task<IActionResult> Index()
         {
-            var parcialDbContext = _context.Ciudades.Include(c => c.Pais).Include(c => c.Ubicaciones);
+            var parcialDbContext = _context.Ciudades.Include(c => c.Pais);
             return View(await parcialDbContext.ToListAsync());
         }
 
@@ -36,7 +36,6 @@ namespace PrimerParcial.Controllers
 
             var ciudades = await _context.Ciudades
                 .Include(c => c.Pais)
-                .Include(c => c.Ubicaciones)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ciudades == null)
             {
@@ -50,7 +49,6 @@ namespace PrimerParcial.Controllers
         public IActionResult Create()
         {
             ViewData["PaisId"] = new SelectList(_context.Paises, "Id", "Name");
-            ViewData["UbicacionesId"] = new SelectList(_context.Set<Ubicaciones>(), "Id", "Ubicacion");
             return View();
         }
 
@@ -59,7 +57,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,PaisId,UbicacionesId")] Ciudades ciudades)
+        public async Task<IActionResult> Create([Bind("Id,Name,PaisId")] Ciudades ciudades)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +66,6 @@ namespace PrimerParcial.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PaisId"] = new SelectList(_context.Paises, "Id", "Name", ciudades.PaisId);
-            ViewData["UbicacionesId"] = new SelectList(_context.Set<Ubicaciones>(), "Id", "Ubicacion", ciudades.UbicacionesId);
             return View(ciudades);
         }
 
@@ -86,7 +83,6 @@ namespace PrimerParcial.Controllers
                 return NotFound();
             }
             ViewData["PaisId"] = new SelectList(_context.Paises, "Id", "Name", ciudades.PaisId);
-            ViewData["UbicacionesId"] = new SelectList(_context.Set<Ubicaciones>(), "Id", "Ubicacion", ciudades.UbicacionesId);
             return View(ciudades);
         }
 
@@ -95,7 +91,7 @@ namespace PrimerParcial.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PaisId,UbicacionesId")] Ciudades ciudades)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PaisId")] Ciudades ciudades)
         {
             if (id != ciudades.Id)
             {
@@ -123,7 +119,6 @@ namespace PrimerParcial.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PaisId"] = new SelectList(_context.Paises, "Id", "Name", ciudades.PaisId);
-            ViewData["UbicacionesId"] = new SelectList(_context.Set<Ubicaciones>(), "Id", "Ubicacion", ciudades.UbicacionesId);
             return View(ciudades);
         }
 
@@ -137,7 +132,6 @@ namespace PrimerParcial.Controllers
 
             var ciudades = await _context.Ciudades
                 .Include(c => c.Pais)
-                .Include(c => c.Ubicaciones)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ciudades == null)
             {

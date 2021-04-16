@@ -10,8 +10,8 @@ using PrimerParcial.Data;
 namespace PrimerParcial.Migrations
 {
     [DbContext(typeof(ParcialDbContext))]
-    [Migration("20210410164216_ChangedModels")]
-    partial class ChangedModels
+    [Migration("20210416024325_fix")]
+    partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,8 +41,8 @@ namespace PrimerParcial.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
@@ -74,14 +74,9 @@ namespace PrimerParcial.Migrations
                     b.Property<int>("PaisId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UbicacionesId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PaisId");
-
-                    b.HasIndex("UbicacionesId");
 
                     b.ToTable("Ciudades");
                 });
@@ -226,6 +221,60 @@ namespace PrimerParcial.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FormasPago");
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.InvoiceDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticuloId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ITBIS")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("MasterId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticuloId");
+
+                    b.HasIndex("MasterId");
+
+                    b.ToTable("InvoiceDetalle");
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.InvoiceMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaFactura")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("InvoiceMaster");
                 });
 
             modelBuilder.Entity("PrimerParcial.Models.Marcas", b =>
@@ -425,30 +474,12 @@ namespace PrimerParcial.Migrations
                     b.ToTable("Tipos_de_Documentos");
                 });
 
-            modelBuilder.Entity("PrimerParcial.Models.Ubicaciones", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Ubicacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ubicaciones");
-                });
-
             modelBuilder.Entity("PrimerParcial.Models.Unidades_de_Medida", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CantidadMedida")
-                        .HasColumnType("int");
 
                     b.Property<string>("Medida")
                         .HasColumnType("nvarchar(max)");
@@ -501,12 +532,6 @@ namespace PrimerParcial.Migrations
                         .HasForeignKey("PaisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("PrimerParcial.Models.Ubicaciones", "Ubicaciones")
-                        .WithMany("Ciudades")
-                        .HasForeignKey("UbicacionesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PrimerParcial.Models.Clientes", b =>
@@ -529,6 +554,30 @@ namespace PrimerParcial.Migrations
                     b.HasOne("PrimerParcial.Models.Puestos_de_Trabajos", "JobTitle")
                         .WithMany("Empleados")
                         .HasForeignKey("JobTitleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.InvoiceDetalle", b =>
+                {
+                    b.HasOne("PrimerParcial.Models.Articulos", "Articulo")
+                        .WithMany()
+                        .HasForeignKey("ArticuloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PrimerParcial.Models.InvoiceMaster", "Master")
+                        .WithMany("InvoiceDetalles")
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PrimerParcial.Models.InvoiceMaster", b =>
+                {
+                    b.HasOne("PrimerParcial.Models.Clientes", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

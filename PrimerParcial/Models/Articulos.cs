@@ -14,7 +14,8 @@ namespace PrimerParcial.Models
         public string Name { get; set; }
         [Range(0, int.MaxValue,ErrorMessage = "Value must be a positive number.")]
         [Required]
-        public int Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
         [Required]
         public int Stock { get; set; }
         public string Description { get; set; }

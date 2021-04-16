@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
+<a asp-action="Index" class="btn btn-primary">
+    Atrás
+</a>
+
 <div class="card card-primary">
 
     @{ await Html.RenderPartialAsync("_DetalleModalPartial", new OrdenCompraDetalle()); }
